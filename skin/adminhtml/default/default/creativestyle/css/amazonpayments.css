@@ -1,0 +1,59 @@
+.creativestyle-info {
+    border: 1px solid #cccccc;
+    background: #e7efef;
+    margin-bottom: 10px;
+    padding: 10px;
+    height: auto;
+}
+.creativestyle-info .creativestyle-logo {
+    float: right;
+    padding: 5px;
+}
+.creativestyle-info .creativestyle-command {
+    border: 1px solid #cccccc;
+    background: #ffffff;
+    padding: 15px;
+    text-align: left;
+    margin: 10px 0;
+    font-weight: bold;
+}
+.creativestyle-info h3 {
+    color: #ea7601;
+}
+.creativestyle-info h3 small {
+    font-weight: normal;
+    font-size: 80%;
+    font-style: italic;
+}
+
+h3.amazon-payments-advanced-header {
+    background: url('../images/amazon-payments-advanced-header.png') no-repeat scroll 0 0 transparent;
+    height: 0;
+    overflow: hidden;
+    padding: 24px 0 0;
+    width: 155px;
+    margin-bottom: 5px;
+}
+
+ul.tabs a.amazon-payments-advanced-section, ul.tabs a.amazon-payments-advanced-section:hover {
+    background: url('../../images/tabs_span_bg.gif') repeat-x scroll 0 100% transparent;
+    border-bottom: medium none;
+    padding: 0.7em 0.5em 0.5em 1.5em;
+}
+
+ul.tabs a.amazon-payments-advanced-section.active, ul.tabs a.amazon-payments-advanced-section.active:hover {
+    background-color: #ffffff;
+}
+
+ul.tabs a.amazon-payments-advanced-section span, ul.tabs a.amazon-payments-advanced-section:hover span {
+    background: url('../images/amazon-payments-advanced-section.png') no-repeat scroll 0 0 transparent;
+    width: 116px;
+    height: 0;
+    overflow: hidden;
+    padding: 18px 0 0;
+}
+
+.head-amazonpayments-debug,
+.head-amazonpayments-log {
+    background-image: url('../images/logo_a-glyph_16.png');
+}

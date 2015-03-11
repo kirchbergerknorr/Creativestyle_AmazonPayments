@@ -1,0 +1,29 @@
+<?php
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+?>
+<div class="creativestyle-info">
+    <a class="creativestyle-logo" href="http://www.creativestyle.de" target="_blank">
+        <img src="<?php echo $this->getSkinUrl('creativestyle/images/amazon-payments-advanced-creativestyle-logo.png'); ?>" alt="creativestyle" />
+    </a>
+    <h3><?php echo $this->__('Login and Pay with Amazon'); ?><small> (v. <?php echo $this->getExtensionVersion(); ?>)</small></h3>
+    <p style="clear:both;"><?php echo $this->__('This extension integrates easily your Magento shop with Pay with Amazon service.'); ?></p>
+    <p>--------------------------------------------------------<br />
+        <?php echo $this->helper('amazonpayments')->__(
+            'Visit <a href="%s" target="_blank">%s</a> to get more information.',
+            $this->helper('amazonpayments')->__('http://www.creativestyle.net/services/magento.html'),
+            $this->helper('amazonpayments')->__('http://www.creativestyle.net/services/magento.html'));
+        ?>
+    </p>
+</div>

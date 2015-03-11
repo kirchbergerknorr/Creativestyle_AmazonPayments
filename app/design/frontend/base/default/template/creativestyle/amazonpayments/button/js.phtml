@@ -1,0 +1,33 @@
+<?php
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+?>
+<?php if ($this->isVirtual()): ?>
+var amazonButtonTooltip = '<img src="<?php echo $this->getSkinUrl('creativestyle/images/logo_a-glyph_1x.png'); ?>" alt="<?php echo $this->__('Pay with Amazon'); ?>"/><?php echo $this->__('<strong>Amazon Payments</strong> helps you shop quickly, safely and securely. You can pay on our website without re-entering your payment and address details.'); ?>';
+<?php else: ?>
+var amazonButtonTooltip = '<img src="<?php echo $this->getSkinUrl('creativestyle/images/logo_a-glyph_1x.png'); ?>" alt="<?php echo $this->__('Pay with Amazon'); ?>"/><?php echo $this->__('<strong>Amazon Payments</strong> helps you shop quickly, safely and securely. You can pay on our website without re-entering your payment and address details. All Amazon transactions are protected by Amazon&apos;s A-to-z Guarantee.'); ?>';
+<?php endif; ?>
+
+APA.setup('<?php echo $this->getMerchantId(); ?>', {
+    live:    <?php echo ($this->isLive() ? 'true' : 'false'); ?>,
+    popup:   <?php echo ($this->isPopup() ? 'true' : 'false'); ?>,
+    virtual: <?php echo ($this->isVirtual() ? 'true' : 'false'); ?>,
+    layers: {
+        payButtons:   '.payButtonWidget',
+        loginButtons: '.loginButtonWidget',
+    },
+    urls:    <?php echo $this->getUrlParams(); ?>,
+    design:  <?php echo $this->getDesignParams(); ?>
+
+}).renderButtonWidget(amazonButtonTooltip);

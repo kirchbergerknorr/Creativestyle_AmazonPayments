@@ -1,0 +1,61 @@
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons">
+                <?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4><?php echo $this->__('API Call details'); ?></h4>
+    </div>
+    <div class="box">
+        <table cellspacing="0" class="form-list">
+            <tbody>
+                <tr>
+                    <td class="label"><label><?php echo $this->__('Date'); ?></label></td>
+                    <td class="value"><strong><?php echo $this->htmlEscape($this->getTimestamp()); ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo $this->__('URL'); ?></label></td>
+                    <td class="value"><?php echo $this->htmlEscape($this->getCallUrl()); ?></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo $this->__('Response code'); ?></label></td>
+                    <td class="value"><?php echo $this->htmlEscape($this->getResponseCode()); ?></td>
+                </tr>
+                <?php if ($this->getResponseError()): ?>
+                    <tr>
+                        <td class="label"><label><?php echo $this->__('Error message'); ?></label></td>
+                        <td class="value"><?php echo $this->htmlEscape($this->getResponseError()); ?></td>
+                    </tr>                    
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="entry-edit-head">
+        <h4><?php echo $this->__('Query'); ?></h4>
+    </div>
+    <div class="box box-code">
+        <pre><code class="language-http"><?php echo $this->htmlEscape($this->getQuery()); ?></code></pre>
+    </div>
+    <?php if ($this->getResponseBody()): ?>
+        <div class="entry-edit-head">
+            <h4><?php echo $this->__('Response'); ?></h4>
+        </div>
+        <div class="box box-code">
+            <pre><code class="language-markup"><?php echo $this->htmlEscape($this->getResponseBody()); ?></code></pre>
+        </div>
+    <?php endif; ?>
+    <?php if ($this->getResponseHeaders()): ?>
+        <div class="entry-edit-head">
+            <h4><?php echo $this->__('Response headers'); ?></h4>
+        </div>
+        <div class="box box-code">
+            <pre><code class="language-http"><?php echo $this->htmlEscape($this->getResponseHeaders()); ?></code></pre>
+        </div>
+    <?php endif; ?>
+</div>

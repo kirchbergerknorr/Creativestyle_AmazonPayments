@@ -1,0 +1,16 @@
+{
+    "name": "kirchbergerknorr/creativestyle_amazonpayments",
+    "description": "Creativestyle AmazonPayments",
+    "keywords": ["magento", "amazon"],
+    "homepage": "http://www.magentocommerce.com/magento-connect/catalog/product/view/id/13078/",
+    "type": "magento-module",
+    "license":"OSL-3.0",
+    "authors": [
+        {
+            "name": "Benedikt Volkmer",
+            "email": "bv@kirchbergerknorr.de"
+        }
+    ],
+    "require": {
+    }
+}

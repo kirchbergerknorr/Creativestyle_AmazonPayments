@@ -1,0 +1,52 @@
+<?php
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+?>
+<div class="account-login amazon-login">
+    <div class="new-users">
+        <div class="content">
+            <h2><?php echo $this->helper('amazonpayments')->__('Use your Amazon Account') ?></h2>
+            <p>
+                <?php echo $this->helper('amazonpayments')->__('With Amazon Payments, you can use the shipping and payment information stored in your Amazon account to place an order on this website. It\'s a convenient and trusted way to pay that\'s enjoyed by millions of people.'); ?>
+                <?php echo $this->helper('amazonpayments')->__('By selecting Amazon Payments, you will be asked to sign-in securely to your Amazon account without leaving the shop.'); ?>
+            </p>
+        </div>
+    </div>
+    <div class="buttons-set">
+        <div id="<?php echo $this->getWidgetHtmlId(); ?>" class="<?php echo $this->getWidgetClass(); ?>"></div>
+        <?php if ($this->isCustomDesignSet()): ?>
+            <script type="text/javascript">//<![CDATA[
+                var buttonDiv = $('<?php echo $this->getWidgetHtmlId(); ?>');
+                <?php if ($buttonType = $this->getButtonType()): ?>
+                    buttonDiv.buttonType = '<?php echo $buttonType; ?>';
+                <?php endif; ?>
+                <?php if ($buttonSize = $this->getButtonSize()): ?>
+                    buttonDiv.buttonSize = '<?php echo $buttonSize; ?>';
+                <?php endif; ?>
+                <?php if ($buttonColor = $this->getButtonColor()): ?>
+                    buttonDiv.buttonColor = '<?php echo $buttonColor; ?>';
+                <?php endif; ?>
+            //]]></script>
+        <?php endif; ?>
+    </div>
+</div>
+<?php if ($this->getMoveBefore()): ?>
+    <script type="text/javascript">//<![CDATA[
+        if ($('<?php echo $this->getMoveBefore(); ?>')) {
+            $$('div.amazon-login').each(function(element) {
+                $('<?php echo $this->getMoveBefore(); ?>').insert({before: element.addClassName('position-before')});
+            });
+        }
+    //]]></script>
+<?php endif; ?>

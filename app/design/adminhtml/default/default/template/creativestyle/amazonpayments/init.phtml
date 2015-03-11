@@ -1,0 +1,37 @@
+<?php
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+?>
+<script type="text/javascript">//<![CDATA[
+    document.observe('dom:loaded', function() {
+        if ($('creative-system-config')) {
+            $('creative-system-config').setStyle({
+                display: 'block', backgroundImage: 'url(<?php echo $this->getSkinUrl('creativestyle/images/amazon-payments-advanced-creativestyle-header-logo.png'); ?>)',
+                backgroundPosition: '0 50%', backgroundRepeat: 'no-repeat', height: '27px', margin: '0', padding: '0',
+                textIndent: '-9999px', cursor: 'auto'
+            });
+        }
+        var menuItems = $$('#nav li.level0 > a > span');
+        if (menuItems.length) {
+            menuItems.each(function(item) {
+                if (item.innerHTML == 'creativestyle') {
+                    item.setStyle({
+                        display: 'block', backgroundImage: 'url(<?php echo $this->getSkinUrl('creativestyle/images/amazon-payments-advanced-creativestyle-header-logo-white.png'); ?>)', overflow: 'hidden',
+                        width: '100px', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', textIndent: '-9999px'
+                    });
+                }
+            });
+        }
+    });
+//]]></script>

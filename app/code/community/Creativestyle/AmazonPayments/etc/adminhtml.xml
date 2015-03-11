@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+-->
+<config>
+    <menu>
+        <creativestyle>
+            <title>creativestyle</title>
+            <sort_order>99</sort_order>
+            <children>
+                <amazonpayments translate="title" module="amazonpayments">
+                    <title>Login and Pay with Amazon</title>
+                    <sort_order>1</sort_order>
+                    <children>
+                        <!--
+                        <orders translate="title" module="adminhtml">
+                            <title>Pay with Amazon orders</title>
+                            <action>amazonpayments/adminhtml_order</action>
+                            <sort_order>10</sort_order>
+                        </orders>
+                        <documentation translate="title">
+                            <title>Documentation</title>
+                            <sort_order>200</sort_order>
+                            <action>admin_amazonpayments/adminhtml_documentation</action>
+                        </documentation>
+                        -->
+                        <debug translate="title">
+                            <title>Debug data</title>
+                            <sort_order>800</sort_order>
+                            <action>admin_amazonpayments/adminhtml_debug</action>
+                        </debug>
+                        <log translate="title">
+                            <title>Log preview</title>
+                            <sort_order>810</sort_order>
+                            <children>
+                                <exception translate="title">
+                                    <title>Exceptions</title>
+                                    <sort_order>10</sort_order>
+                                    <action>admin_amazonpayments/adminhtml_log_exception</action>
+                                </exception>
+                                <api translate="title">
+                                    <title>API Calls</title>
+                                    <sort_order>100</sort_order>
+                                    <action>admin_amazonpayments/adminhtml_log_api</action>
+                                </api>
+                                <ipn translate="title">
+                                    <title>IPN Notifications</title>
+                                    <sort_order>200</sort_order>
+                                    <action>admin_amazonpayments/adminhtml_log_ipn</action>
+                                </ipn>
+                            </children>
+                        </log>
+                        <settings translate="title" module="amazonpayments">
+                            <title>Settings</title>
+                            <sort_order>900</sort_order>
+                            <action>adminhtml/system_config/edit/section/amazonpayments</action>
+                            <resource>system/config/amazonpayments</resource>
+                        </settings>
+                    </children>
+                </amazonpayments>
+            </children>
+        </creativestyle>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <creativestyle>
+                        <children>
+                            <amazonpayments translate="title" module="amazonpayments">
+                                <title>Login and Pay with Amazon</title>
+                                <children>
+                                    <!--
+                                    <orders translate="title">
+                                        <title>Orders</title>
+                                    </orders>
+                                    -->
+                                    <debug translate="title">
+                                        <title>Debug data</title>
+                                    </debug>
+                                    <log translate="title">
+                                        <title>Log preview</title>
+                                        <children>
+                                            <exception translate="title">
+                                                <title>Exceptions</title>
+                                            </exception>
+                                            <api translate="title">
+                                                <title>API Calls</title>
+                                            </api>
+                                            <ipn translate="title">
+                                                <title>IPN Notifications</title>
+                                            </ipn>
+                                        </children>
+                                    </log>
+                                </children>
+                            </amazonpayments>
+                        </children>
+                    </creativestyle>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <amazonpayments translate="title" module="amazonpayments">
+                                        <title>Login and Pay with Amazon settings</title>
+                                    </amazonpayments>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

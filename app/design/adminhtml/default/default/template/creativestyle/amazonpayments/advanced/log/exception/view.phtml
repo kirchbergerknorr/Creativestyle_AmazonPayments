@@ -1,0 +1,41 @@
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons">
+                <?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4><?php echo $this->__('Exception details'); ?></h4>
+    </div>
+    <div class="box">
+        <table cellspacing="0" class="form-list">
+            <tbody>
+                <tr>
+                    <td class="label"><label><?php echo $this->__('Date'); ?></label></td>
+                    <td class="value"><strong><?php echo $this->escapeHtml($this->getTimestamp()); ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo $this->__('Code'); ?></label></td>
+                    <td class="value"><?php echo $this->escapeHtml($this->getExceptionCode()); ?></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo $this->__('Message'); ?></label></td>
+                    <td class="value"><?php echo $this->escapeHtml($this->getExceptionMessage()); ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($this->getExceptionTrace()): ?>
+        <div class="entry-edit-head">
+            <h4><?php echo $this->__('Stack trace'); ?></h4>
+        </div>
+        <div class="box box-code">
+            <pre><code class="language-http"><?php echo $this->escapeHtml($this->getExceptionTrace()); ?></code></pre>
+        </div>
+    <?php endif; ?>
+</div>

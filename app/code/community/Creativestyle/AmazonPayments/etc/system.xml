@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+-->
+<config>
+    <tabs>
+        <creativestyle translate="label" module="amazonpayments">
+            <label><![CDATA[<div id="creative-system-config">creativestyle Extensions</div>]]></label>
+            <sort_order>99</sort_order>
+        </creativestyle>
+    </tabs>
+    <sections>
+        <amazonpayments translate="label" module="amazonpayments">
+            <label>Pay with Amazon</label>
+            <comment>This extension was developed by creativestyle GmbH</comment>
+            <class>amazon-payments-advanced-section</class>
+            <header_css>amazon-payments-advanced-header</header_css>
+            <tab>creativestyle</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <plugin_info>
+                    <frontend_model>amazonpayments/adminhtml_info</frontend_model>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </plugin_info>
+                <account translate="label">
+                    <label>Amazon Payments Account</label>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <merchant_id translate="label">
+                            <label>Merchant ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </merchant_id>
+                        <access_key translate="label">
+                            <label>Access Key ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </access_key>
+                        <secret_key translate="label">
+                            <label>Secret Access Key</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </secret_key>
+                        <region translate="label">
+                            <label>Marketplace</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_region</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </region>
+                        <validator translate="label">
+                            <frontend_model>amazonpayments/adminhtml_credentialsValidator</frontend_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </validator>
+                    </fields>
+                </account>
+                <general translate="label">
+                    <label>General Settings</label>
+                    <sort_order>200</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enable Pay with Amazon</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <sandbox translate="label">
+                            <label>Sandbox Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><active>1</active></depends>
+                        </sandbox>
+                        <sandbox_toolbox translate="label">
+                            <label>Show Sandbox Toolbox</label>
+                            <comment>Whether to show a toolbox in the checkout for simulating different payment scenarios.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                                <sandbox>1</sandbox>
+                            </depends>
+                        </sandbox_toolbox>
+                        <payment_action translate="label">
+                            <label>Payment Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_paymentAction</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><active>1</active></depends>
+                        </payment_action>
+                        <ipn_active translate="label">
+                            <label>Enable Instant Payment Notifications</label>
+                            <comment>This feature requires valid SSL certificate to be installed on this server. Pay attention that the SSL certificate must be issued by a trusted Certificate Authority, self-signed certificates are not permitted.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_ipnActive</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><active>1</active></depends>
+                        </ipn_active>
+                        <ipn_url>
+                            <label>IPN endpoint URL</label>
+                            <comment><![CDATA[Please enter this URL in the <strong>Merchant URL</strong> field of the Integration Settings in your Amazon Seller Central.]]></comment>
+                            <frontend_model>amazonpayments/adminhtml_ipnUrl</frontend_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                                <ipn_active>1</ipn_active>
+                            </depends>
+                        </ipn_url>
+                        <polling_frequency>
+                            <label>Data polling frequency</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_frequency</source_model>
+                            <backend_model>amazonpayments/system_config_backend_dataPolling_cron</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <active>1</active>
+                                <ipn_active>0</ipn_active>
+                            </depends>
+                        </polling_frequency>
+                        <recent_polled_transaction>
+                            <label>ID of recent polled transaction</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>990</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </recent_polled_transaction>
+                        <authorized_order_status translate="label">
+                            <label>Order status on authorization</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><active>1</active></depends>
+                        </authorized_order_status>
+                    </fields>
+                </general>
+                <login translate="label">
+                    <label>Login with Amazon</label>
+                    <sort_order>250</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enable Login with Amazon</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <client_id translate="label">
+                            <label>Client ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><active>1</active></depends>
+                        </client_id>
+<!--
+                        <authentication>
+                            <label>Authentication Experience</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_authentication</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><active>1</active></depends>
+                        </authentication>
+-->
+                    </fields>
+                </login>
+                <email translate="label">
+                    <label>Email Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>300</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <order_confirmation translate="label">
+                            <label>Send order confirmation</label>
+                            <comment>Select whether an email confirmation for newly placed orders shall be sent by the shop</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_confirmation>
+                        <authorization_declined_template translate="label">
+                            <label>Declined Payment Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </authorization_declined_template>
+                        <authorization_declined_identity translate="label">
+                            <label>Declined Payment Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </authorization_declined_identity>
+                    </fields>
+                </email>
+                <design>
+                    <label>Common Appearance Settings</label>
+                    <sort_order>400</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <responsive translate="label">
+                            <label>Use responsive widgets</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </responsive>
+                        <address_width translate="label comment">
+                            <label>Address widget width</label>
+                            <comment>Enter a value between 200 and 600 pixels. For one-column widget please enter width less than 400.</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-digits-range digits-range-200-600</validate>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><responsive>0</responsive></depends>
+                        </address_width>
+                        <address_height translate="label comment">
+                            <label>Address widget height</label>
+                            <comment>Enter a value between 228 and 400 pixels</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-digits-range digits-range-228-400</validate>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><responsive>0</responsive></depends>
+                        </address_height>
+                        <payment_width translate="label comment">
+                            <label>Wallet widget width</label>
+                            <comment>Enter a value between 200 and 600 pixels. For one-column widget please enter width less than 400.</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-digits-range digits-range-200-600</validate>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><responsive>0</responsive></depends>
+                        </payment_width>
+                        <payment_height translate="label comment">
+                            <label>Wallet widget height</label>
+                            <comment>Enter a value between 228 and 400 pixels</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-digits-range digits-range-228-400</validate>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><responsive>0</responsive></depends>
+                        </payment_height>
+                    </fields>
+                </design>
+                <design_login>
+                    <label>Appearance Settings for Login and Pay with Amazon</label>
+                    <sort_order>420</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <login_button_type translate="label">
+                            <label>"Login with Amazon" button type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_design_button_type_login</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </login_button_type>
+                        <login_button_size translate="label">
+                            <label>"Login with Amazon" button size</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_design_button_size_loginPay</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </login_button_size>
+                        <login_button_color translate="label">
+                            <label>"Login with Amazon" button color</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_design_button_color_loginPay</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </login_button_color>
+                        <pay_button_type translate="label">
+                            <label>"Pay with Amazon" button type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_design_button_type_pay</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pay_button_type>
+                        <pay_button_size translate="label">
+                            <label>"Pay with Amazon" button size</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_design_button_size_loginPay</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pay_button_size>
+                        <pay_button_color translate="label">
+                            <label>"Pay with Amazon" button color</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_design_button_color_loginPay</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pay_button_color>
+                    </fields>
+                </design_login>
+                <design_pay>
+                    <label>Appearance Settings for standalone Pay with Amazon</label>
+                    <sort_order>440</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <button_size translate="label">
+                            <label>"Pay with Amazon" button size</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_design_button_size</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </button_size>
+                        <button_color translate="label">
+                            <label>"Pay with Amazon" button color</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_design_button_color</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </button_color>
+                    </fields>
+                </design_pay>
+                <developer translate="label">
+                    <label>Developer Options</label>
+                    <sort_order>900</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <allowed_ips>
+                            <label>Allowed IPs (comma separated)</label>
+                            <comment>Leave empty for access from any location</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allowed_ips>
+                        <log_active translate="label">
+                            <label>Enable logging</label>
+                            <comment>Each logfile will be rotated when it exceeds size of 8 Megabytes</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </log_active>
+                    </fields>
+                </developer>
+            </groups>
+        </amazonpayments>
+        <payment>
+            <groups>
+                <amazonpayments/>
+            </groups>
+        </payment>
+    </sections>
+</config>

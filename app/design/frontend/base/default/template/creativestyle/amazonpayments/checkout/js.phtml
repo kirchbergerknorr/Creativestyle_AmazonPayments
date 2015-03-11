@@ -1,0 +1,55 @@
+<?php
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+?>
+<?php $orderReferenceId = $this->getOrderReferenceId(); ?>
+
+var quoteBaseGrandTotal = <?php echo (float)$this->getQuoteBaseGrandTotal(); ?>;
+var checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
+var lastPrice;
+if (typeof Translator != 'undefined') {
+    Translator.add('There was an error processing your order. Please contact us or try again later.', '<?php echo $this->__('There was an error processing your order. Please contact us or try again later.'); ?>');
+}
+
+APA.setup('<?php echo $this->getMerchantId(); ?>', {
+    orderReferenceId: <?php echo $orderReferenceId ? '\'' . $orderReferenceId . '\'' : 'null'; ?>,
+    live:             <?php echo ($this->isLive() ? 'true' : 'false'); ?>,
+    popup:            <?php echo ($this->isPopup() ? 'true' : 'false'); ?>,
+    virtual:          <?php echo ($this->isVirtual() ? 'true' : 'false'); ?>,
+    urls: {
+        saveShipping:       '<?php echo $this->getUrl('amazonpayments/advanced_checkout/saveShipping'); ?>',
+        saveShippingMethod: '<?php echo $this->getUrl('amazonpayments/advanced_checkout/saveShippingMethod'); ?>',
+        saveOrder:          '<?php echo $this->getUrl('amazonpayments/advanced_checkout/saveOrder'); ?>',
+        success:            '<?php echo $this->getUrl('checkout/onepage/success'); ?>',
+        failure:            '<?php echo $this->getUrl('checkout/cart') ?>'
+    },
+    layers: {
+        addressBook:        'addressBookWidgetDiv',
+        wallet:             'walletWidgetDiv',
+        shippingMethod:     'shippingMethodWidgetDiv',
+        review:             'reviewWidgetDiv'
+    },
+    design: {
+        responsive:         <?php echo ($this->isResponsive() ? 'true' : 'false'); ?>,
+        <?php if (!$this->isResponsive()): ?>
+        addressBook: {
+            size: {width: '<?php echo $this->getAddressBookWidgetSize()->getWidth(); ?>', height: '<?php echo $this->getAddressBookWidgetSize()->getHeight(); ?>'}
+        },
+        wallet: {
+            size: {width: '<?php echo $this->getWalletWidgetSize()->getWidth(); ?>', height: '<?php echo $this->getWalletWidgetSize()->getHeight(); ?>'}
+        }
+        <?php endif; ?>
+
+    }
+}).initCheckout();

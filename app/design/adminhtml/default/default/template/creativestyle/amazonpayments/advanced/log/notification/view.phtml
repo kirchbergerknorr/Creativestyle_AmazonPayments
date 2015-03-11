@@ -1,0 +1,63 @@
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons">
+                <?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4><?php echo $this->__('Exception details'); ?></h4>
+    </div>
+    <div class="box">
+        <table cellspacing="0" class="form-list">
+            <tbody>
+                <tr>
+                    <td class="label"><label><?php echo $this->__('Date'); ?></label></td>
+                    <td class="value"><strong><?php echo $this->escapeHtml($this->getTimestamp()); ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo $this->__('Notification type'); ?></label></td>
+                    <td class="value"><?php echo $this->escapeHtml($this->getNotificationType()); ?></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo $this->__('Response code'); ?></label></td>
+                    <td class="value"><?php echo $this->escapeHtml($this->getResponseCode()); ?></td>
+                </tr>
+                <?php if ($this->getResponseError()): ?>
+                    <tr>
+                        <td class="label"><label><?php echo $this->__('Response error'); ?></label></td>
+                        <td class="value"><?php echo $this->escapeHtml($this->getResponseError()); ?></td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($this->getMessageXml()): ?>
+        <div class="entry-edit-head">
+            <h4><?php echo $this->__('Extracted XML message'); ?></h4>
+        </div>
+        <div class="box box-code">
+            <pre><code class="language-markup"><?php echo $this->escapeHtml($this->getMessageXml()); ?></code></pre>
+        </div>
+    <?php endif; ?>
+    <?php if ($this->getRequestBody()): ?>
+        <div class="entry-edit-head">
+            <h4><?php echo $this->__('Request Body'); ?></h4>
+        </div>
+        <div class="box box-code">
+            <pre><code class="language-javascript"><?php echo $this->escapeHtml($this->getRequestBody()); ?></code></pre>
+        </div>
+    <?php endif; ?>
+    <?php if ($this->getRequestHeaders()): ?>
+        <div class="entry-edit-head">
+            <h4><?php echo $this->__('Request Headers'); ?></h4>
+        </div>
+        <div class="box box-code">
+            <pre><code class="language-http"><?php echo $this->escapeHtml($this->getRequestHeaders()); ?></code></pre>
+        </div>
+    <?php endif; ?>
+</div>

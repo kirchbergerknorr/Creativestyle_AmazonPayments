@@ -1,0 +1,26 @@
+<?php
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody><tr>
+            <td style="width:50%;"><h3 class="head-amazonpayments-debug icon-head"><?php echo Mage::helper('amazonpayments')->__('Debug data') ?></h3></td>
+            <td class="form-buttons"><button onclick="setLocation('<?php echo $this->getDownloadUrl(); ?>')" class="scalable" type="button"><span>Download as file</span></button></td>
+        </tr>
+    </tbody></table>
+</div>
+<div>
+    <?php echo $this->getChildHtml('debug_data'); ?>
+</div>

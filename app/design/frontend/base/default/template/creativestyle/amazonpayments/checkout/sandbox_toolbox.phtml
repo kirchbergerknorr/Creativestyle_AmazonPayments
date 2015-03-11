@@ -1,0 +1,31 @@
+<?php
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+?>
+<form id="sandbox-simulation">
+    <fieldset class="sandbox-simulation">
+        <p><?php echo $this->__('In Sandbox Mode you can simulate certain states of selected payment objects.'); ?></p>
+        <select id="simulation_object" name="simulation[object]" style="display:none;"></select>
+        <select id="simulation_state" name="simulation[state]" style="display:none;"></select>
+        <select id="simulation_reason" name="simulation[reason]" style="display:none;"></select>
+    </fieldset>
+</form>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('creativestyle/apa_sandbox_toolbox.min.js'); ?>"></script>
+<script type="text/javascript">
+    APA.Toolbox.initialize(
+        <?php echo $this->getSimulationOptions(); ?>,
+        {object: 'simulation_object', state: 'simulation_state', reason: 'simulation_reason'},
+        {object: '<?php echo $this->__('--- Select object ---'); ?>', state: '<?php echo $this->__('--- Select state to simulate ---'); ?>', reason: '<?php echo $this->__('--- Select reason code ---'); ?>'}
+    );
+</script>

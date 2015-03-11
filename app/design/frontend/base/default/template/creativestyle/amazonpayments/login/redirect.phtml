@@ -1,0 +1,25 @@
+<?php
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2015 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+?>
+<h1><?php echo $this->__('Redirecting, please wait...'); ?></h1>
+<script type="text/javascript">//<![CDATA[
+    var accessToken = (new RegExp('[?|&|#]<?php echo $this->getAccessTokenParamName(); ?>=([^&;]+?)(&|#|;|$)').exec(location.hash) || [,""])[1].replace(/\+/g,'%20') || null;
+    if (typeof accessToken === 'string' && accessToken.match(/^Atza/)) {
+        Mage.Cookies.set('amazon_Login_accessToken', decodeURIComponent(accessToken), null, '/', null, true);
+        setLocation('<?php echo $this->getRedirectUrl(); ?>'.replace(/%s/, accessToken));
+    } else {
+        setLocation('<?php echo $this->getFailureUrl(); ?>');
+    }
+//]]></script>

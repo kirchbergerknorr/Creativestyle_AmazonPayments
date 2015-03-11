@@ -1,0 +1,64 @@
+<?php
+/**
+ * This file is part of the official Amazon Payments Advanced extension
+ * for Magento (c) creativestyle GmbH <amazon@creativestyle.de>
+ * All rights reserved
+ *
+ * Reuse or modification of this source code is not allowed
+ * without written permission from creativestyle GmbH
+ *
+ * @category   Creativestyle
+ * @package    Creativestyle_AmazonPayments
+ * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
+ */
+?>
+<div class="grid">
+    <div class="hor-scroll">
+        <table cellspacing="0" class="data debug-section-table" id="<?php echo $this->getSectionId(); ?>">
+            <?php if ($this->showKeys()): ?>
+                <colgroup>
+                    <col width="250">
+                </colgroup>
+            <?php endif; ?>
+            <tbody>
+                <?php foreach ($this->getDebugData() as $key => $value): ?>
+                    <?php if ($key == '__titles__'): ?>
+                        <tr class="headings">
+                            <?php if ($this->showKeys()): ?>
+                                <th>&nbsp;</th>
+                            <?php endif; ?>
+                            <?php foreach ($value as $subkey => $subvalue): ?>
+                                <th class="a-center"><?php echo $this->formatOutput($subvalue); ?></th>
+                            <?php endforeach; ?>
+                        </tr>
+                    <?php else: ?>
+                        <tr>
+                            <?php if ($this->showKeys()): ?>
+                                <td class="a-right"><strong><?php echo $key; ?></strong></td>
+                            <?php endif; ?>
+                            <?php foreach ($value as $subkey => $subvalue): ?>
+                                <td class="a-center data-cell"><?php echo $this->formatOutput($subvalue); ?></td>
+                            <?php endforeach; ?>
+                        </tr>
+                    <?php endif; ?>                
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">//<![CDATA[
+    document.observe('dom:loaded', function() {
+        decorateTable('<?php echo $this->getSectionId(); ?>');
+        var tableCells = $$('#<?php echo $this->getSectionId(); ?> td.data-cell');
+        if (tableCells.length) {
+            tableCells.each(function(cell) {
+                if (cell.innerHTML.toLowerCase() == 'no' || cell.innerHTML.toLowerCase() == 'inactive' || cell.innerHTML.toLowerCase() == 'invalid') {
+                    cell.update('<span class="amazon-failed" title="' + cell.innerHTML + '">' + cell.innerHTML + '</span>');
+                } else if (cell.innerHTML.toLowerCase() == 'yes' || cell.innerHTML.toLowerCase() == 'ok') {
+                    cell.update('<span class="amazon-passed" title="' + cell.innerHTML + '">' + cell.innerHTML + '</span>');
+                }
+            });
+        }
+    });
+//]]></script>

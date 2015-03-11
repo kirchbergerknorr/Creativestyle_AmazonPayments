@@ -1,0 +1,152 @@
+.amazonpayments-or {
+    line-height: 2.3;
+    margin: 0 8px;
+}
+.cart .totals .checkout-types .amazonpayments-or {
+    display: block;
+    clear: both;
+    font-size: 11px;
+    line-height: 1;
+    padding: 8px 55px 0 0;
+}
+.block-cart .actions .amazonpayments-or {
+    display: block;
+    clear: both;
+    font-size: 11px;
+    line-height: 1;
+    padding: 8px 55px 8px 0;
+    margin: 0;
+}
+.pay-with-amazon-tooltip {
+    border: solid 1px #bbbbbb;
+    background-color: #ffffff;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    padding: 10px 15px;
+    width: 300px;
+    font-size: 11px;
+    text-align: left;
+    box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px#888;
+    -moz-box-shadow: 0 0 5px #888;
+    -o-box-shadow: 0 0 5px #888;
+}
+.pay-with-amazon-tooltip img {
+    float: right;
+    padding: 5px 0 5px 10px;
+}
+.pay-with-amazon-onepage-shortcut {
+    padding-bottom: 10px;
+}
+.pay-with-amazon-onepage-shortcut p {
+    padding: 10px 0;
+}
+.pay-with-amazon-onepage-shortcut p img {
+    display: none;
+}
+.payButtonWidget img {
+    cursor: pointer;
+}
+.checkout-onepage-index .loginButtonWidget,
+.checkout-onepage-index .payButtonWidget {
+    margin-bottom: 15px;
+    text-align: right;
+}
+ol.apa {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.apa .section {
+    margin: 0 0 15px 0;
+}
+.apa .store-widget {
+    clear: both;
+    border: solid 1px #bbbbbb;
+    background-color: #ffffff;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+.apa .amazon-widget-overlay {
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+}
+.apa .step-title {
+    margin: 12px;
+}
+.apa .step-title img {
+    float: left;
+    height: 22px;
+    margin: 0 7px 0 0;
+    vertical-align: middle;
+    width: 23px;
+}
+.apa .step-title h2 {
+    color: #2f3841;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: middle;
+    text-transform: none;
+}
+.apa .section-content {
+    margin: 0 12px 12px;
+}
+.apa .section-please-wait {
+    display: none;
+    height: 80px;
+    margin: 12px;
+    background: url('../images/amazon-loading-large.gif') center center no-repeat;
+}
+.apa .amazon-widget.loading {
+    min-height: 80px;
+    background: url('../images/amazon-loading-large.gif') center center no-repeat;
+}
+.apa .loading .section-content {
+    display: none;
+}
+.apa .loading .section-please-wait {
+    display: block;
+}
+.apa .sandbox-simulation select {
+    width: 25%;
+}
+.apa .sandbox-simulation p {
+    margin: 0 0 10px;
+}
+.apa .buttons-set {
+    line-height: 40px;
+}
+.apa .buttons-set.disabled button.button {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+    filter: alpha(opacity=40);
+    -moz-opacity: 0.4;
+    -khtml-opacity: 0.4;
+    opacity: 0.4;
+}
+.amazon-login {
+    padding-top: 27px;
+}
+.amazon-login.position-before {
+    padding-top: 0 !important;
+    padding-bottom: 27px;
+}
+.amazon-login .content {
+    min-height: 100px;
+}
+.buttons-set button.cancel span {
+    border-color:#406a83;
+    background:#618499;
+}
