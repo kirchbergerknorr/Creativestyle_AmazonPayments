@@ -37,12 +37,11 @@ class Creativestyle_AmazonPayments_Model_Observer {
      *
      * @param Mage_Sales_Model_Order_Payment_Transaction $transaction
      */
-    protected function _fetchTransactionInfo($transaction, $shouldSave = true) {
+    protected function _fetchTransactionInfo($transaction) {
         $transaction->getOrderPaymentObject()
             ->setOrder($transaction->getOrder())
             ->importTransactionInfo($transaction);
-        if ($shouldSave) $transaction->save();
-        return $transaction->getId();
+        return $transaction->save();
     }
 
     protected function _pollTransactionData() {
@@ -66,30 +65,30 @@ class Creativestyle_AmazonPayments_Model_Observer {
         foreach ($collection as $transaction) {
             try {
                 $txnType = $transaction->getTxnType();
-                switch (strtolower(Mage::helper('amazonpayments')->getTransactionStatus($transaction))) {
-                    case 'pending':
-                        $recentTransactionId = $this->_fetchTransactionInfo($transaction);
+                switch (Mage::helper('amazonpayments')->getTransactionStatus($transaction)) {
+                    case Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_PENDING:
+                        $recentTransactionId = $this->_fetchTransactionInfo($transaction)->getId();
                         $count++;
                         usleep(self::DATA_POLL_SLEEP_BETWEEN_TIME);
                         break;
-                    case 'suspended':
+                    case Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_SUSPENDED:
                         if ($txnType == Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER) {
-                            $recentTransactionId = $this->_fetchTransactionInfo($transaction);
+                            $recentTransactionId = $this->_fetchTransactionInfo($transaction)->getId();
                             $count++;
                             usleep(self::DATA_POLL_SLEEP_BETWEEN_TIME);
                         }
                         break;
-                    case 'open':
+                    case Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_OPEN:
                         $txnAge = floor(($dateModel->timestamp() - $dateModel->timestamp($transaction->getCreatedAt())) / (60 * 60 * 24));
                         if (($txnType == Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER && $txnAge > 180) ||
                             ($txnType == Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH && $txnAge > 30)) {
-                            $recentTransactionId = $this->_fetchTransactionInfo($transaction);
+                            $recentTransactionId = $this->_fetchTransactionInfo($transaction)->getId();
                             $count++;
                             usleep(self::DATA_POLL_SLEEP_BETWEEN_TIME);
                         }
                         break;
                     case null:
-                        $recentTransactionId = $this->_fetchTransactionInfo($transaction);
+                        $recentTransactionId = $this->_fetchTransactionInfo($transaction)->getId();
                         $count++;
                         usleep(self::DATA_POLL_SLEEP_BETWEEN_TIME);
                         break;
@@ -112,34 +111,33 @@ class Creativestyle_AmazonPayments_Model_Observer {
     }
 
     protected function _shouldUpdateParentTransaction($transaction) {
-        $updateMatrix = array(
-            'completed' => array(
-                Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE,
-                Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND
-            ),
-            'closed' => array(
-                Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH,
-                Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE
-            ),
-            'declined' => array(
-                Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH,
-                Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE,
-                Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND
-            )
-        );
-        $txnStatus = strtolower(Mage::helper('amazonpayments')->getTransactionStatus($transaction));
-        $txnType = $transaction->getTxnType();
-        if (array_key_exists($txnStatus, $updateMatrix) && in_array($txnType, $updateMatrix[$txnStatus])) {
-            return true;
+        switch ($transaction->getTxnType() && !$transaction->getData('skip_update_parent_transaction')) {
+            case Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH:
+                return in_array(Mage::helper('amazonpayments')->getTransactionStatus($transaction), array(
+                    Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_DECLINED,
+                    /* temporary disabled as resulting in missing panrent order transaction for auth & capture */
+                    // Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_CLOSED
+                ));
+            case Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE:
+                return in_array(Mage::helper('amazonpayments')->getTransactionStatus($transaction), array(
+                    Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_COMPLETED,
+                    Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_DECLINED,
+                    Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_CLOSED
+                ));
+            case Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND:
+                return in_array(Mage::helper('amazonpayments')->getTransactionStatus($transaction), array(
+                    Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_COMPLETED,
+                    Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_DECLINED
+                ));
         }
         return false;
     }
 
-    protected function _updateParentTransaction($transaction, $shouldSave = true) {
+    protected function _updateParentTransaction($transaction) {
         if ($this->_shouldUpdateParentTransaction($transaction)) {
-            $parentTransaction = $transaction->getParentTransaction();
-            if ($parentTransaction && !$parentTransaction->getIsClosed()) {
-                $this->_fetchTransactionInfo($parentTransaction, $shouldSave);
+            if ($parentTransaction = $transaction->getParentTransaction()) {
+                $transaction->setData('skip_update_parent_transaction', true);
+                $this->_fetchTransactionInfo($parentTransaction);
             }
         }
         return $this;
@@ -230,16 +228,17 @@ class Creativestyle_AmazonPayments_Model_Observer {
         return $this;
     }
 
-
     public function closeTransaction($observer) {
         try {
             $transaction = $observer->getEvent()->getOrderPaymentTransaction();
             if ($transaction->getId() && in_array($transaction->getOrderPaymentObject()->getMethod(), Mage::helper('amazonpayments')->getAvailablePaymentMethods())) {
-                $closeFor = array('canceled', 'closed', 'declined', 'completed');
-                if (in_array(strtolower(Mage::helper('amazonpayments')->getTransactionStatus($transaction)), $closeFor)) {
+                if (in_array(Mage::helper('amazonpayments')->getTransactionStatus($transaction), array(
+                    Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_DECLINED,
+                    Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_COMPLETED,
+                    Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_CANCELED,
+                    Creativestyle_AmazonPayments_Model_Processor_TransactionAdapter::TRANSACTION_STATE_CLOSED
+                ))) {
                     $transaction->setIsClosed(true);
-                } else {
-                    $transaction->setIsClosed(false);
                 }
             }
         } catch (Exception $e) {
@@ -253,7 +252,6 @@ class Creativestyle_AmazonPayments_Model_Observer {
             $transaction = $observer->getEvent()->getOrderPaymentTransaction();
             if ($transaction->getId() && in_array($transaction->getOrderPaymentObject()->getMethod(), Mage::helper('amazonpayments')->getAvailablePaymentMethods())) {
                 $this->_updateParentTransaction($transaction);
-                $this->_updateOrderTransaction($transaction);
             }
         } catch (Exception $e) {
             Creativestyle_AmazonPayments_Model_Logger::logException($e);
@@ -262,12 +260,18 @@ class Creativestyle_AmazonPayments_Model_Observer {
     }
 
     public function setSecureUrls($observer) {
-        $secureUrlsConfigNode = Mage::getConfig()->getNode('frontend/secure_url');
-        if ($this->_getConfig()->isPopupAuthenticationExperience()) {
-            $secureUrlsConfigNode->addChild('amazonpayments_cart', '/checkout/cart');
-        }
-        if ($this->_getConfig()->isSandbox()) {
-            unset($secureUrlsConfigNode->amazonpayments_ipn);
+        try {
+            $secureUrlsConfigNode = Mage::getConfig()->getNode('frontend/secure_url');
+            if ($this->_getConfig()->isActive() & Creativestyle_AmazonPayments_Model_Config::LOGIN_WITH_AMAZON_ACTIVE
+                && $this->_getConfig()->isPopupAuthenticationExperience())
+            {
+                $secureUrlsConfigNode->addChild('amazonpayments_cart', '/checkout/cart');
+            }
+            if ($this->_getConfig()->isSandbox()) {
+                unset($secureUrlsConfigNode->amazonpayments_ipn);
+            }
+        } catch (Exception $e) {
+            Creativestyle_AmazonPayments_Model_Logger::logException($e);
         }
         return $this;
     }

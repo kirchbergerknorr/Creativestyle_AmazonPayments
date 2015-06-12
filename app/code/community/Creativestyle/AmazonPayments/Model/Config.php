@@ -24,7 +24,9 @@ class Creativestyle_AmazonPayments_Model_Config {
     const XML_PATH_GENERAL_SANDBOX              = 'amazonpayments/general/sandbox';
     const XML_PATH_GENERAL_SANDBOX_TOOLBOX      = 'amazonpayments/general/sandbox_toolbox';
     const XML_PATH_GENERAL_PAYMENT_ACTION       = 'amazonpayments/general/payment_action';
+    const XML_PATH_GENERAL_AUTHORIZATION_MODE   = 'amazonpayments/general/authorization_mode';
     const XML_PATH_GENERAL_IPN_ACTIVE           = 'amazonpayments/general/ipn_active';
+    const XML_PATH_GENERAL_NEW_ORDER_STATUS     = 'amazonpayments/general/new_order_status';
     const XML_PATH_GENERAL_ORDER_STATUS         = 'amazonpayments/general/authorized_order_status';
     const XML_PATH_GENERAL_RECENT_POLLED_TXN    = 'amazonpayments/general/recent_polled_transaction';
 
@@ -171,6 +173,14 @@ class Creativestyle_AmazonPayments_Model_Config {
         return $this->getAuthenticationExperience($store) == Creativestyle_AmazonPayments_Model_Lookup_Authentication::POPUP_EXPERIENCE;
     }
 
+    public function getAuthorizationMode($store = null) {
+        return Mage::getStoreConfig(self::XML_PATH_GENERAL_AUTHORIZATION_MODE, $store);
+    }
+
+    public function isAuthorizationSynchronous($store = null) {
+        return $this->getAuthorizationMode($store) == Creativestyle_AmazonPayments_Model_Lookup_AuthorizationMode::SYNCHRONOUS;
+    }
+
     public function getWidgetUrl($store = null) {
         if ($this->isActive() & self::LOGIN_WITH_AMAZON_ACTIVE) {
             return $this->getMerchantValues()->getWidgetUrl();
@@ -254,6 +264,10 @@ class Creativestyle_AmazonPayments_Model_Config {
         ));
     }
 
+    public function getPaymentAction($store = null) {
+        return Mage::getStoreConfig(self::XML_PATH_GENERAL_PAYMENT_ACTION, $store);
+    }
+
     public function authorizeImmediately($store = null) {
         return in_array(Mage::getStoreConfig(self::XML_PATH_GENERAL_PAYMENT_ACTION, $store), array(
             Creativestyle_AmazonPayments_Model_Payment_Abstract::ACTION_AUTHORIZE,
@@ -273,8 +287,16 @@ class Creativestyle_AmazonPayments_Model_Config {
         return Mage::getStoreConfig(self::XML_PATH_GENERAL_PAYMENT_ACTION, $store) != Creativestyle_AmazonPayments_Model_Payment_Abstract::ACTION_ERP;
     }
 
+    public function getNewOrderStatus($store = null) {
+        return Mage::getStoreConfig(self::XML_PATH_GENERAL_NEW_ORDER_STATUS, $store);
+    }
+
     public function getAuthorizedOrderStatus($store = null) {
         return Mage::getStoreConfig(self::XML_PATH_GENERAL_ORDER_STATUS, $store);
+    }
+
+    public function getHoldedOrderStatus($store = null) {
+        return 'holded';
     }
 
     public function sendEmailConfirmation($store = null) {

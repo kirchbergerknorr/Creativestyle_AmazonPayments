@@ -48,24 +48,27 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <merchant_id translate="label">
+                        <merchant_id translate="label comment">
                             <label>Merchant ID</label>
+                            <comment><![CDATA[Account information can be found <a target="_blank" href="https://sellercentral-europe.amazon.com/hz/me/integration/details">here</a>]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </merchant_id>
-                        <access_key translate="label">
+                        <access_key translate="label comment">
                             <label>Access Key ID</label>
+                            <comment><![CDATA[Account information can be found <a target="_blank" href="https://sellercentral-europe.amazon.com/hz/me/integration/details">here</a>]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </access_key>
-                        <secret_key translate="label">
+                        <secret_key translate="label comment">
                             <label>Secret Access Key</label>
+                            <comment><![CDATA[Account information can be found <a target="_blank" href="https://sellercentral-europe.amazon.com/hz/me/integration/details">here</a>]]></comment>
                             <frontend_type>password</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
@@ -140,6 +143,16 @@
                             <show_in_store>1</show_in_store>
                             <depends><active>1</active></depends>
                         </payment_action>
+                        <authorization_mode translate="label">
+                            <label>Authorization Processing Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amazonpayments/lookup_authorizationMode</source_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><active>1</active></depends>
+                        </authorization_mode>
                         <ipn_active translate="label">
                             <label>Enable Instant Payment Notifications</label>
                             <comment>This feature requires valid SSL certificate to be installed on this server. Pay attention that the SSL certificate must be issued by a trusted Certificate Authority, self-signed certificates are not permitted.</comment>
@@ -153,7 +166,7 @@
                         </ipn_active>
                         <ipn_url>
                             <label>IPN endpoint URL</label>
-                            <comment><![CDATA[Please enter this URL in the <strong>Merchant URL</strong> field of the Integration Settings in your Amazon Seller Central.]]></comment>
+                            <comment><![CDATA[Please enter this URL in the <strong>Merchant URL</strong> field of the <a target="_blank" href="https://sellercentral-europe.amazon.com/gp/pyop/seller/account/settings/user-settings-view.html">Integration Settings</a> in your Amazon Seller Central.]]></comment>
                             <frontend_model>amazonpayments/adminhtml_ipnUrl</frontend_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -186,6 +199,16 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </recent_polled_transaction>
+                        <new_order_status translate="label">
+                            <label>New order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_new</source_model>
+                            <sort_order>78</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><active>1</active></depends>
+                        </new_order_status>
                         <authorized_order_status translate="label">
                             <label>Order status on authorization</label>
                             <frontend_type>select</frontend_type>
@@ -214,8 +237,9 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </active>
-                        <client_id translate="label">
+                        <client_id translate="label comment">
                             <label>Client ID</label>
+                            <comment><![CDATA[Account information can be found <a target="_blank" href="https://sellercentral-europe.amazon.com/hz/me/integration/details">here</a>]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
@@ -223,7 +247,6 @@
                             <show_in_store>1</show_in_store>
                             <depends><active>1</active></depends>
                         </client_id>
-<!--
                         <authentication>
                             <label>Authentication Experience</label>
                             <frontend_type>select</frontend_type>
@@ -234,7 +257,6 @@
                             <show_in_store>1</show_in_store>
                             <depends><active>1</active></depends>
                         </authentication>
--->
                     </fields>
                 </login>
                 <email translate="label">

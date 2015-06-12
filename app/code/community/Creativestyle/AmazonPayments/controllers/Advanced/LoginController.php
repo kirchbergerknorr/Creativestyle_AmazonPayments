@@ -29,6 +29,10 @@ class Creativestyle_AmazonPayments_Advanced_LoginController extends Mage_Core_Co
         return Mage::getSingleton('amazonpayments/config');
     }
 
+    private function _getCheckoutSession() {
+        return Mage::getSingleton('checkout/session');
+    }
+
     private function _getCustomerSession() {
         return Mage::getSingleton('customer/session');
     }
@@ -169,10 +173,22 @@ class Creativestyle_AmazonPayments_Advanced_LoginController extends Mage_Core_Co
                 throw new Creativestyle_AmazonPayments_Exception('[LWA-controller] Provided access_token is invalid');
             } catch (Exception $e) {
                 Creativestyle_AmazonPayments_Model_Logger::logException($e);
-                $this->_getCustomerSession()->addError($this->__('There was an error connecting your Amazon account. Please contact us or try again later.'));
+                if (strtolower($this->getRequest()->getParam('target', null)) == 'checkout') {
+                    $this->_getCheckoutSession()->addError($this->__('There was an error connecting your Amazon account. Please contact us or try again later.'));
+                } else {
+                    $this->_getCustomerSession()->addError($this->__('There was an error connecting your Amazon account. Please contact us or try again later.'));
+                }
                 $this->_redirectReferer();
                 return;
             }
+        } elseif ($error = $this->getRequest()->getParam('error', false)) {
+            if (strtolower($this->getRequest()->getParam('target', null)) == 'checkout') {
+                $this->_getCheckoutSession()->addError($this->__('You have aborted the login with Amazon. Please contact us or try again.'));
+            } else {
+                $this->_getCustomerSession()->addError($this->__('You have aborted the login with Amazon. Please contact us or try again.'));
+            }
+            $this->_redirectUrl($this->_getRedirectFailureUrl());
+            return;
         }
         $this->_forward('noRoute');
     }

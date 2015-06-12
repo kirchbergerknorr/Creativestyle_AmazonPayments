@@ -13,7 +13,7 @@
  * @copyright  Copyright (c) 2014 creativestyle GmbH
  * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
  */
-class Creativestyle_AmazonPayments_Model_Payment_Advanced extends Creativestyle_AmazonPayments_Model_Payment_Advanced_Abstract {
+class Creativestyle_AmazonPayments_Model_Payment_Advanced extends Creativestyle_AmazonPayments_Model_Payment_Abstract {
 
     protected $_code = 'amazonpayments_advanced';
 

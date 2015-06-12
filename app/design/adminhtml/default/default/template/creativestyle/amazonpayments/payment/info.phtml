@@ -16,7 +16,7 @@
 ?>
 <?php echo $this->__($this->getMethod()->getTitle()); ?><br />
 <?php if ($this->getInfo()->getAdditionalInformation('amazon_order_reference_id')): ?>
-    <?php echo $this->__('Amazon Order Reference ID: %s', $this->htmlEscape($this->getInfo()->getAdditionalInformation('amazon_order_reference_id'))) ?><br/>
+    <?php echo $this->__('Amazon Order Reference ID: <a target="_blank" href="https://sellercentral-europe.amazon.com/hz/me/pmd/payment-details?orderReferenceId=%s">%s</a>', $this->htmlEscape($this->getInfo()->getAdditionalInformation('amazon_order_reference_id')), $this->htmlEscape($this->getInfo()->getAdditionalInformation('amazon_order_reference_id'))) ?><br/>
 <?php else: ?>
     <?php echo $this->__('Payment has not been processed yet') ?><br/>
 <?php endif; ?>

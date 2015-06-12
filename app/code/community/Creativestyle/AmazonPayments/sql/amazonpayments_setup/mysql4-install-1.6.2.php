@@ -10,11 +10,19 @@
  *
  * @category   Creativestyle
  * @package    Creativestyle_AmazonPayments
- * @copyright  Copyright (c) 2014 creativestyle GmbH
+ * @copyright  Copyright (c) 2015 creativestyle GmbH
  * @author     Marek Zabrowarny / creativestyle GmbH <amazon@creativestyle.de>
  */
-class Creativestyle_AmazonPayments_Model_Payment_Advanced_Sandbox extends Creativestyle_AmazonPayments_Model_Payment_Abstract {
 
-    protected $_code = 'amazonpayments_advanced_sandbox';
+$installer = $this;
+$installer->startSetup();
 
-}
+$installer->addAttribute('customer', 'amazon_user_id', array(
+    'type'      => 'varchar',
+    'label'     => 'Amazon UID',
+    'visible'   => false,
+    'required'  => false,
+    'unique'    => true
+));
+
+$installer->endSetup();

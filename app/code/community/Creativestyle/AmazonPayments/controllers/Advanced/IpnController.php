@@ -56,7 +56,7 @@ class Creativestyle_AmazonPayments_Advanced_IpnController extends Mage_Core_Cont
                         $requestHeaders[] = $headerId . ': ' . Mage::app()->getRequest()->getHeader($headerId);
                     }
                 }
-    
+
                 $notification = Mage::getSingleton('amazonpayments/api_ipn')->parseMessage($headers, Mage::app()->getRequest()->getRawBody());
                 Mage::dispatchEvent('amazonpayments_advanced_ipn_request', array(
                     'call_data' => array(
@@ -67,7 +67,7 @@ class Creativestyle_AmazonPayments_Advanced_IpnController extends Mage_Core_Cont
                         'request_body' => Mage::app()->getRequest()->getRawBody()
                     )
                 ));
-                Mage::getSingleton('amazonpayments/manager')->processNotification($notification);
+                Mage::getSingleton('amazonpayments/processor_ipn')->processNotification($notification);
                 $this->_sendResponse(200);
             } catch (Exception $e) {
                 Creativestyle_AmazonPayments_Model_Logger::logException($e);

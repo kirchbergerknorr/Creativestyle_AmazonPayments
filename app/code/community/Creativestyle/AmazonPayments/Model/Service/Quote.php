@@ -76,6 +76,12 @@ class Creativestyle_AmazonPayments_Model_Service_Quote extends Mage_Sales_Model_
         if ($quote->getPayment()->getSimulationData()) {
             $order->getPayment()->setAdditionalInformation('_simulation_data', $quote->getPayment()->getSimulationData());
         }
+        if ($quote->getPayment()->getAmazonSequenceNumber()) {
+            $order->getPayment()->setAdditionalInformation('amazon_sequence_number', $quote->getPayment()->getAmazonSequenceNumber());
+        }
+        if ($quote->getPayment()->getSkipOrderReferenceProcessing()) {
+            $order->getPayment()->setSkipOrderReferenceProcessing(true);
+        }
 
         foreach ($this->_orderData as $key => $value) {
             $order->setData($key, $value);

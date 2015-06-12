@@ -157,7 +157,8 @@ class Creativestyle_AmazonPayments_Model_Checkout extends Mage_Checkout_Model_Ty
             // add order information to the session
             $this->_checkoutSession->setLastOrderId($order->getId())
                 ->setLastRealOrderId($order->getIncrementId())
-                ->setOrderReferenceId(null);
+                ->setOrderReferenceId(null)
+                ->setAmazonSequenceNumber(null);
 
         }
 

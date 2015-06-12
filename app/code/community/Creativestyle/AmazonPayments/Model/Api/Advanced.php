@@ -90,7 +90,7 @@ class Creativestyle_AmazonPayments_Model_Api_Advanced extends Creativestyle_Amaz
         return $response;
     }
 
-    public function authorize($orderReferenceId, $authorizationReferenceId, $authorizationAmount, $authorizationCurrency, $sellerAuthorizationNote = null, $captureNow = false) {
+    public function authorize($orderReferenceId, $authorizationReferenceId, $authorizationAmount, $authorizationCurrency, $sellerAuthorizationNote = null, $captureNow = false, $transactionTimeout = null) {
         $request = new OffAmazonPaymentsService_Model_AuthorizeRequest(array(
             'SellerId' => $this->getMerchantId(),
             'AmazonOrderReferenceId' => $orderReferenceId,
@@ -103,6 +103,9 @@ class Creativestyle_AmazonPayments_Model_Api_Advanced extends Creativestyle_Amaz
         ));
         if (null !== $sellerAuthorizationNote) {
             $request->setSellerAuthorizationNote($sellerAuthorizationNote);
+        }
+        if (null !== $transactionTimeout) {
+            $request->setTransactionTimeout($transactionTimeout);
         }
         $response = $this->_getApi()->authorize($request);
         if ($response->isSetAuthorizeResult()) {

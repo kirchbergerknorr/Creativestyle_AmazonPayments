@@ -27,26 +27,21 @@ class Creativestyle_AmazonPayments_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Send email id payment was failed
+     * Sends an email to the customer if authorization has been declined
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @param OffAmazonPaymentsService_Model_AuthorizationDetails|OffAmazonPaymentsNotifications_Model_AuthorizationDetails $authorizationDetails
+     * @param Mage_Sales_Model_Order $order
+     *
+     * @return Creativestyle_AmazonPayments_Helper_Data
      */
-    public function sendAuthorizationDeclinedEmail($payment, $authorizationDetails) {
+    public function sendAuthorizationDeclinedEmail($order) {
         $translate = Mage::getSingleton('core/translate');
-        /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
-
         $mailTemplate = Mage::getModel('core/email_template');
-        /* @var $mailTemplate Mage_Core_Model_Email_Template */
 
-        $template = $this->_getConfig()->getAuthorizationDeclinedEmailTemplate();
-
-        $order = $payment->getOrder();
         $mailTemplate->setDesignConfig(array('area' => 'frontend', 'store' => $order->getStore()->getId()))
             ->sendTransactional(
-                $template,
-                $this->_getConfig()->getAuthorizationDeclinedEmailIdentity(),
+                $this->_getConfig()->getAuthorizationDeclinedEmailTemplate($order->getStore()->getId()),
+                $this->_getConfig()->getAuthorizationDeclinedEmailIdentity($order->getStore()->getId()),
                 $order->getCustomerEmail(),
                 null,
                 array(
@@ -86,10 +81,35 @@ class Creativestyle_AmazonPayments_Helper_Data extends Mage_Core_Helper_Abstract
         return preg_match('/iPhone|iPod|BlackBerry|Palm|Googlebot-Mobile|Mobile|mobile|mobi|Windows Mobile|Safari Mobile|Android|Opera Mini/', $userAgent);
     }
 
+    /**
+     * @deprecated deprecated since 1.6.2
+     */
     public function getTransactionStatus($transaction) {
         $statusArray = $transaction->getAdditionalInformation(Mage_Sales_Model_Order_Payment_Transaction::RAW_DETAILS);
         if (is_array($statusArray) && array_key_exists('State', $statusArray)) {
             return $statusArray['State'];
+        }
+        return null;
+    }
+
+    /**
+     * TODO: [getTransactionInformation description]
+     *
+     * @param Mage_Sales_Model_Order_Payment_Transaction $transaction
+     * @param string $key
+     *
+     * @return array|string|null
+     */
+    public function getTransactionInformation($transaction, $key = null) {
+        $additionalInformation = $transaction->getAdditionalInformation(Mage_Sales_Model_Order_Payment_Transaction::RAW_DETAILS);
+        if (is_array($additionalInformation)) {
+            if (null !== $key) {
+                if (array_key_exists($key, $additionalInformation)) {
+                    return $additionalInformation[$key];
+                }
+            } else {
+                return $additionalInformation;
+            }
         }
         return null;
     }
@@ -102,14 +122,14 @@ class Creativestyle_AmazonPayments_Helper_Data extends Mage_Core_Helper_Abstract
         return null;
     }
 
-    public function explodeCustomerName($customerName) {
+    public function explodeCustomerName($customerName, $emptyValuePlaceholder = 'n/a') {
         $explodedName = explode(' ', trim($customerName));
         $result = array();
         if (count($explodedName) > 1) {
             $result['firstname'] = reset($explodedName);
             $result['lastname'] = trim(str_replace($result['firstname'], "", $customerName));
         } else {
-            $result['firstname'] = Mage::helper('amazonpayments')->__('n/a');
+            $result['firstname'] = $emptyValuePlaceholder ? Mage::helper('amazonpayments')->__($emptyValuePlaceholder) : null;
             $result['lastname'] = reset($explodedName);
         }
         return new Varien_Object($result);
