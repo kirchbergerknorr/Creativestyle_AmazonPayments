@@ -132,7 +132,6 @@ app/locale/en_GB/Creativestyle_AmazonPayments.csv app/locale/en_GB/Creativestyle
 app/locale/en_GB/template/email/amazon_payments_failed.html app/locale/en_GB/template/email/amazon_payments_failed.html
 app/locale/en_US/Creativestyle_AmazonPayments.csv app/locale/en_US/Creativestyle_AmazonPayments.csv
 app/locale/en_US/template/email/amazon_payments_failed.html app/locale/en_US/template/email/amazon_payments_failed.html
-composer.json composer.json
 js/creativestyle/apa_checkout.js js/creativestyle/apa_checkout.js
 js/creativestyle/apa_checkout.min.js js/creativestyle/apa_checkout.min.js
 js/creativestyle/apa_sandbox_toolbox.min.js js/creativestyle/apa_sandbox_toolbox.min.js
