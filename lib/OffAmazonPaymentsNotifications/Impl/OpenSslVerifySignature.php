@@ -25,9 +25,9 @@ class OffAmazonPaymentsNotifications_Impl_OpenSslVerifySignature implements OffA
     /**
      * Create a new instance of the openssl implementation of
      * verify signature
-     * 
+     *
      * @return void
-     */    
+     */
     public function __construct()
     {
 
@@ -36,15 +36,15 @@ class OffAmazonPaymentsNotifications_Impl_OpenSslVerifySignature implements OffA
     /**
      * Verify that the signature is correct for the given data and
      * public key
-     * 
+     *
      * @param string $data            data to validate
      * @param string $signature       decoded signature to compare against
      * @param string $certificatePath path to certificate, can be file or url
-     * 
-     * @throws OffAmazonPaymentsNotifications_InvalidMessageException if there 
-     *                                                                is an error 
+     *
+     * @throws OffAmazonPaymentsNotifications_InvalidMessageException if there
+     *                                                                is an error
      *                                                                with the call
-     * 
+     *
      * @return bool true if valid
      */
     public function verifySignatureIsCorrect($data, $signature, $certificatePath)
@@ -54,19 +54,19 @@ class OffAmazonPaymentsNotifications_Impl_OpenSslVerifySignature implements OffA
 
         return $this->verifySignatureIsCorrectFromCertificate($data, $signature, $certificate);
     }
-    
+
     /**
      * Verify that the signature is correct for the given data and
      * public key
-     * 
+     *
      * @param string $data            data to validate
      * @param string $signature       decoded signature to compare against
      * @param string $certificate     certificate object defined in Certificate.php
-     * 
-     * @throws OffAmazonPaymentsNotifications_InvalidMessageException if there 
-     *                                                                is an error 
+     *
+     * @throws OffAmazonPaymentsNotifications_InvalidMessageException if there
+     *                                                                is an error
      *                                                                with the call
-     * 
+     *
      * @return bool true if valid
      */
     public function verifySignatureIsCorrectFromCertificate($data, $signature, $certificate)
@@ -97,18 +97,18 @@ class OffAmazonPaymentsNotifications_Impl_OpenSslVerifySignature implements OffA
                 "Unable to verify signature - error with the verification algorithm",
                 null, $ex
             );
-        } 
-       
+        }
+
         return ($result > 0);
     }
 
     /**
      * Verify that certificate is issued by Amazon
-     * 
+     *
      * @param array $certificateSubject certificate subject array
-     * 
+     *
      * @throws OffAmazonPaymentsNotifications_InvalidMessageException
-     * 
+     *
      * @return void
      */
     private function _verifyCertificateSubject($certificateSubject)
@@ -123,35 +123,54 @@ class OffAmazonPaymentsNotifications_Impl_OpenSslVerifySignature implements OffA
             );
         }
     }
-    
+
     /**
      * Request the signing certificate from the given path, in order to
      * get the public key
-     * 
+     *
      * @param string $certificatePath certificate path to retreive
-     * 
+     *
      * @throws OffAmazonPaymentsNotifications_InvalidMessageException
-     * 
+     *
      * @return void
      */
     private function _getCertificateFromCertifcatePath($certificatePath)
     {
         try {
-            $cert = file_get_contents($certificatePath);
-        } catch (Exception $ex) {
+            if(preg_match("/^http/", $certificatePath)) {
+                // set CURLOPT_SSL_VERIFYPEER to false, if your local system does not have a current ssl-cert-root-list
+                $options = array(
+                    CURLOPT_HEADER => false,
+                    CURLOPT_URL => $certificatePath,
+                    CURLOPT_USERAGENT => '',
+                    CURLOPT_TIMEOUT => 10,
+                    CURLOPT_RETURNTRANSFER => 1,
+                    CURLOPT_CONNECTTIMEOUT => 3,
+                    CURLOPT_MAXREDIRS => 2,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+                    CURLOPT_SSL_VERIFYPEER => true
+                );
+                $ch = curl_init();
+                curl_setopt_array($ch, $options);
+                $cert = curl_exec($ch);
+                curl_close($ch);
+            } else {
+                $cert = file_get_contents($certificatePath);
+            }        } catch (Exception $ex) {
             throw new OffAmazonPaymentsNotifications_InvalidMessageException(
                 "Error with signature validation - unable to request signing ".
                 "certificate at " . $certificatePath, null, $ex
             );
         }
-            
+
         if ($cert === false) {
             throw new OffAmazonPaymentsNotifications_InvalidMessageException(
                 "Error with signature validation - unable to request signing ".
                 "certificate at " . $certificatePath
             );
         }
-            
+
         return $cert;
     }
 }
